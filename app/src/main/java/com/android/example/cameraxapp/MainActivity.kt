@@ -2,18 +2,14 @@ package com.android.example.cameraxapp
 
 import android.Manifest
 import android.content.ContentValues
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.AspectRatio
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -40,8 +36,6 @@ typealias LumaListener = (luma: Double) -> Unit
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
     private lateinit var cameraExecutor: ExecutorService
-
-    private var cameraAspectRatio: Int = AspectRatio.RATIO_DEFAULT
 
     //image capture properties
     private var imageCapture: ImageCapture? = null
@@ -267,23 +261,5 @@ class MainActivity : AppCompatActivity() {
                     add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
             }.toTypedArray()
-    }
-
-    private fun getDisplayMetrics(): DisplayMetrics {
-        val windowManager = baseContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val displayMetrics = DisplayMetrics()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val windowMetrics = windowManager.currentWindowMetrics
-            val bounds = windowMetrics.bounds
-
-            // Set the width and height in displayMetrics
-            displayMetrics.widthPixels = bounds.width()
-            displayMetrics.heightPixels = bounds.height()
-        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            displayMetrics.widthPixels = windowManager.defaultDisplay.width
-            displayMetrics.heightPixels = windowManager.defaultDisplay.height
-        }
-        return displayMetrics
     }
 }
